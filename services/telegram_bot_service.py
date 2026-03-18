@@ -3,7 +3,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, Messa
 from dotenv import load_dotenv
 import os
 
-from services.owm_service import OwmService
+from services.owm_service import format_response
 
 load_dotenv()
 
@@ -33,12 +33,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def handle_response(text: str):
    procesed: str = text.lower()
-
-   cities = OwmService.fetch_city(procesed)
-   if not cities: return 'Ciudad no encontrada'
-   weather = OwmService.obtain_own_data(lat=cities[0].lat, lon=cities[0].lon)
-
-   return f'''El tiempo en {cities[0].name} es de {weather.main.temp}ºC con una maximas de {weather.main.temp_max}ºC y unas minimas de {weather.main.temp_min}ºC'''
+   return format_response(procesed)
 
 def init_bot():
     print('Starting bot...')
