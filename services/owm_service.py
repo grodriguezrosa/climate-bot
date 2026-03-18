@@ -12,8 +12,8 @@ owm_key = os.getenv('OWM_KEY')
 
 class OwmService:
     @staticmethod
-    def fetch_city(self: str) -> list[City]:
-         url = url_base + f"/geo/1.0/direct?q={self}&appid={owm_key}"
+    def fetch_city(city: str) -> list[City]:
+         url = url_base + f"/geo/1.0/direct?q={city}&appid={owm_key}"
          response = requests.get(url)
          return [City.from_dict(item) for item in response.json()]
 
@@ -21,6 +21,6 @@ class OwmService:
 
     @staticmethod
     def obtain_own_data(lat: float, lon: float) -> Weather:
-        url = url_base + f"/data/2.5/weather?lat={lat}&lon={lon}&appid={owm_key}"
-        respose = requests.get(url)
-        return Weather.from_dict(respose.json())
+        url = url_base + f"/data/2.5/weather?lat={lat}&lon={lon}&appid={owm_key}&units=metric"
+        response = requests.get(url)
+        return Weather.from_dict(response.json())
